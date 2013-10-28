@@ -3,7 +3,14 @@ geekbooth
 A python program to create a photobooth to replicate the photos for the http://geekthelibrary.org/ program.
 It uses the following parts, modules, raspbian packages, and fonts.
 
+# Table of Contents
 *[Usage](#usage)
+*[Parts](#parts)
+*[Font File](#fontfile)
+*[Raspbian Package](#raspbianpackage)
+*[Python Modules](#pythonmodules)
+
+# <a name="usage"></a>Usage
 Press the big GO button
 It asks what you geek.
 Give an answer and hit enter.
@@ -13,7 +20,7 @@ It snapps the photo and adds the text below it.
 It then saves it to the thumbdrive and shows a final image on the LCD screen.
 It now waits for the next person to press the GO button to start again.
 
-*[Parts](#parts)
+# <a name="parts"></a>Parts
 Raspberry Pi
 Raspberry Pi Camera Module
 4.3'' Color TFT LCD with composite input
@@ -24,13 +31,13 @@ USB Keyboard
 A big button to trigger the GPIO pin to start the photobooth.
 
 
-*[Font File](#fontfile)
+# <a name="fontfile"></a>Font File
 American Typewriter True Type Font
 
-*[Raspbian Package](#raspbianpackage)
+# <a name="raspbianpackage"></a>Raspbian Packages
 usbmount (to auto mount the thumbdrive)
 
-*[Python Modules](#pythonmodules)
+# <a name="pythonmodules"></a>Python Modules
 time
 subprocess
 PIL (Python Image Library)
