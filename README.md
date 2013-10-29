@@ -15,7 +15,7 @@ It uses the following parts, modules, raspbian packages, and fonts.
 Press the big GO button<br>
 It asks what you geek on the LCD character display.<br>
 Give an answer and hit enter.<br>
-Hit tells you press the flashing red button to take your pic.<br>
+It tells you press the flashing red button to take your pic.<br>
 Camera preview shows up on LCD screen for you to frame up.<br>
 It snapps the photo and adds the text below it.<br>
 It then saves it to the thumbdrive and shows a final image on the LCD screen.<br>
