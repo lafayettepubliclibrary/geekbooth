@@ -85,7 +85,7 @@ copied the python code for the LCD plate to the working directory for my script<
 cp ~/myprojects/adafruit/Adafruit-Raspberry-Pi-Python-Code/Adafruit_CharLCDPlate/* to ?<br>
 <br>
 <br>
-Make USB autoboot:<br>
+Make USB thumbdrive automount when inserted:<br>
 apt-get install usbmount<br>
 <br>
 
