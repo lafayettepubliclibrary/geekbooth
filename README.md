@@ -53,6 +53,7 @@ This is just a log of things I did after I installed Raspbian<br>
 Installed Raspbian.<br>
 <br>
 Installed fim to view images on the command line.<br>
+sudo apt-get install fim<br>
 <br>
 edited /etc/modules and added the following for the LCD board<br>
         i2c-bcm2708<br>
