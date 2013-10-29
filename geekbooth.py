@@ -11,7 +11,7 @@ from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(22,GPIO.IN) #GO Button
-GPIO.setup(18,GPIO.OUT, initial=GPIO.HIGH) #GO Button LED
+GPIO.setup(18,GPIO.OUT, initial=GPIO.LOW) #GO Button LED
 
 lcd = Adafruit_CharLCDPlate()
 font = ImageFont.truetype("./at.ttf",130) #full frame
@@ -27,6 +27,62 @@ def flashlights():
         lcd.backlight(c)
         time.sleep(.25)
     lcd.backlight(lcd.GREEN)
+
+# Watch GO button for press
+def gowatcher():
+        if (GPIO.input(22) == False ):
+            if not os.path.ismount("/media/usb0/"):
+                lcd.clear()
+                lcd.backlight(lcd.RED)
+                lcd.message("NO THUMBDRIVE!\n")
+                lcd.message(" Insert & Retry")
+            else:
+                mainrun()
+                os.system("clear")
+                flashlights()
+                lcd.clear()
+                lcd.backlight(lcd.GREEN)
+                lcd.message(gbversion)
+                lcd.message("Hit GO Button!")
+
+
+# Morse Code Blinkn Light
+def barker():
+    CODE = {'A': '.-',     'B': '-...',   'C': '-.-.',
+            'D': '-..',    'E': '.',      'F': '..-.',
+            'G': '--.',    'H': '....',   'I': '..',
+            'J': '.---',   'K': '-.-',    'L': '.-..',
+            'M': '--',     'N': '-.',     'O': '---',
+            'P': '.--.',   'Q': '--.-',   'R': '.-.',
+            'S': '...',    'T': '-',      'U': '..-',
+            'V': '...-',   'W': '.--',    'X': '-..-',
+            'Y': '-.--',   'Z': '--..',
+
+            '0': '-----',  '1': '.----',  '2': '..---',
+            '3': '...--',  '4': '....-',  '5': '.....',
+            '6': '-....',  '7': '--...',  '8': '---..',
+            '9': '----.'
+            }
+    msg = "GO"
+#    print(msg + "\n")
+#    time.sleep(1)
+    for char in msg:
+        gowatcher()
+        time.sleep(.40)
+        for dotdash in CODE[char.upper()]:
+            pulse = 0
+            gowatcher()
+            if dotdash == str("-"):
+                pulse = .10
+            else:
+                pulse = .05
+            GPIO.output(18,GPIO.HIGH)
+            print(dotdash)
+            time.sleep(pulse)
+            GPIO.output(18,GPIO.LOW)
+            time.sleep(.20)
+
+
 
 # Taking the photo.
 def grab_cam():
@@ -111,7 +167,7 @@ def mainrun():
 
 lcd.clear()
 lcd.message(gbversion)
-lcd.message("Press GO Button!")
+lcd.message("Hold GO Button!")
 flashlights()
 print(gbversion)
 print("Ready To Go")
@@ -120,24 +176,7 @@ print("Ready To Go")
 # Run the program
 try:
     while True:
-        GPIO.output(18,GPIO.HIGH)
-        time.sleep(0.25)
-        GPIO.output(18,GPIO.LOW)
-        time.sleep(0.25)
-        if (GPIO.input(22) == False ):
-            if not os.path.ismount("/media/usb0/"):
-                lcd.clear()
-                lcd.backlight(lcd.RED)
-                lcd.message("NO THUMBDRIVE!\n")
-                lcd.message(" Insert & Retry")
-            else:
-                mainrun()
-                os.system("clear")
-                flashlights()
-                lcd.clear()
-                lcd.backlight(lcd.GREEN)
-                lcd.message(gbversion)
-                lcd.message("Press GO Button!")
+        barker()
 except:
 # LCD Cleanup when done
     lcd.clear()
