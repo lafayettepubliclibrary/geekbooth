@@ -9,6 +9,7 @@ It uses the following parts, modules, raspbian packages, and fonts.
 *[Font File](#fontfile)<br>
 *[Raspbian Package](#raspbianpackage)<br>
 *[Python Modules](#pythonmodules)<br>
+*[Install Log for Raspbian](#installlog)<br>
 
 # <a name="usage"></a>Usage
 Press the big GO button<br>
@@ -46,5 +47,44 @@ os<br>
 getpass (I'm not using it at the moment)<br>
 Adafruit_CharLCDPlate<br>
 
-
+# <a name="installlog"></a> Raspbian Install Log
+This is just a log of things I did after I installed Raspbian<br>
+<br>
+Installed Raspbian.<br>
+<br>
+Installed fim to view images on the command line.<br>
+<br>
+edited /etc/modules and added the following for the LCD board<br>
+        i2c-bcm2708<br>
+        i2c-dev<br>
+sudo apt-get install python-smbus<br>
+sudo apt-get install i2c-tools<br>
+<br>
+#make sure the 20 is there to identify the board.<br>
+sudo i2cdetect -y 1<br>
+<br>
+made sure git was installed<br>
+sudo apt-get install git<br>
+<br>
+installed code for the LCD<br>
+git clone https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git<br>
+<br>
+Installed GPIO tools<br>
+sudo apt-get install python-dev<br>
+sudo apt-get install python-rpi.gpio<br>
+<br>
+Installed pip to be able to install python libraries.<br>
+sudo apt-get install python-setuptools<br>
+sudo easy_install pip<br>
+<br>
+Installed some python libraries I need<br>
+sudo apt-get install python-imaging<br>
+<br>
+copied the python code for the LCD plate to the working directory for my script<br>
+cp ~/myprojects/adafruit/Adafruit-Raspberry-Pi-Python-Code/Adafruit_CharLCDPlate/* to ?<br>
+<br>
+<br>
+Make USB autoboot:<br>
+apt-get install usbmount<br>
+<br>
 
