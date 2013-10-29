@@ -28,7 +28,7 @@ def flashlights():
         time.sleep(.25)
     lcd.backlight(lcd.GREEN)
 
-# Watch GO button for press
+# Watch GO button for press to start the photobooth.
 def gowatcher():
         if (GPIO.input(22) == False ):
             if not os.path.ismount("/media/usb0/"):
@@ -37,7 +37,7 @@ def gowatcher():
                 lcd.message("NO THUMBDRIVE!\n")
                 lcd.message(" Insert & Retry")
             else:
-                mainrun()
+                mainrun() # BUTTON FIRED, START THE PHOTO SESSION!
                 os.system("clear")
                 flashlights()
                 lcd.clear()
@@ -64,14 +64,13 @@ def barker():
             '9': '----.'
             }
     msg = "GO"
-#    print(msg + "\n")
-#    time.sleep(1)
+
     for char in msg:
-        gowatcher()
+        gowatcher() # Check for GO press
         time.sleep(.40)
         for dotdash in CODE[char.upper()]:
             pulse = 0
-            gowatcher()
+            gowatcher() # Check for GO press
             if dotdash == str("-"):
                 pulse = .10
             else:
@@ -81,8 +80,6 @@ def barker():
             time.sleep(pulse)
             GPIO.output(18,GPIO.LOW)
             time.sleep(.20)
-
-
 
 # Taking the photo.
 def grab_cam():
@@ -94,9 +91,7 @@ def grab_cam():
     time.sleep(4)
     lcd.clear()
     lcd.message("      SNAP!")
-    ##print "SNAP"
-
-
+    ##print("SNAP!")
 
 # Adding the text to the picture.
 def addgeek():
@@ -121,13 +116,14 @@ def addgeek():
     lcd.message("    Preview")
     webcamphoto.save(filename)
     ##print "Done!"
-#    os.system("fim -c '45%; sleep \"5\"; q'" + " " + str(filename)) #vga monitor
-    os.system("fim -c '20%; sleep \"5\"; q'" + " " + str(filename)) #composite LCD screen
+#    os.system("fim -c '45%; sleep \"5\"; q'" + " " + str(filename)) #if using vga monitor
+    os.system("fim -c '20%; sleep \"5\"; q'" + " " + str(filename)) #if using 4.3" composite LCD screen
     lcd.clear()
     lcd.backlight(lcd.VIOLET)
     lcd.message("    All Done\n")
     lcd.message("   Thank You!")
 
+# Main function that starts the photobooth session.
 def mainrun():
     # Cycle through backlight colors
     col = (lcd.RED , lcd.YELLOW, lcd.GREEN, lcd.TEAL,
@@ -145,15 +141,17 @@ def mainrun():
     os.system("clear")
     global whatgeek
     whatgeek = str(raw_input("What do you geek?  ")) # Get what they geek
-    #whatgeek = str(getpass.getpass(prompt="")) #hides text input to LCD screen
+    ##whatgeek = str(getpass.getpass(prompt="")) #hides text input to LCD screen
     lcd.clear()
     lcd.backlight(lcd.YELLOW)
     lcd.message("Nice! You Geek:\n")
     lcd.message("%s" % whatgeek)
     time.sleep(2)
+    os.system("clear")
     lcd.clear()
     lcd.message("  Press Button\n")
     lcd.message("  To Take Pic")
+    # Flash the button LED fast to draw attention.
     while True:
         GPIO.output(18,GPIO.HIGH)
         time.sleep(.1)
@@ -163,8 +161,9 @@ def mainrun():
             grab_cam()
             break
         time.sleep(.1)
-    addgeek()
+    addgeek()  # Jump to addgeek funtion to process text
 
+# Some intial setup before going into the main loop.
 lcd.clear()
 lcd.message(gbversion)
 lcd.message("Hold GO Button!")
@@ -173,12 +172,12 @@ print(gbversion)
 print("Ready To Go")
 
 
-# Run the program
+# Run the main loop of the program.
 try:
     while True:
         barker()
 except:
-# LCD Cleanup when done
+# LCD and GPIO Cleanup when catching a ctrl+C
     lcd.clear()
     lcd.backlight(lcd.OFF)
     GPIO.cleanup()
