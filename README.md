@@ -25,10 +25,10 @@ Raspberry Pi<br>
 Raspberry Pi Camera Module<br>
 4.3'' Color TFT LCD with composite input<br>
 Adafruit RGB Positive LCD http://www.adafruit.com/products/1115 <br>
+Adafruit Red LED Button http://www.adafruit.com/products/1439 <br>
 Powered USB Hub<br>
 Thumbdrive to store photos<br>
 USB Keyboard<br>
-A big button to trigger the GPIO pin to start the photobooth.<br>
 
 
 # <a name="fontfile"></a>Font File
