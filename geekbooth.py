@@ -1,24 +1,24 @@
-import time 
-import subprocess 
-import PIL 
-from PIL import ImageFont 
-from PIL import Image 
-from PIL import ImageDraw 
-import RPi.GPIO as GPIO 
-import os 
-import getpass 
+import time
+import subprocess
+import PIL
+from PIL import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+import RPi.GPIO as GPIO
+import os
+import getpass
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(22,GPIO.IN)
-GPIO.setup(15,GPIO.IN)
+GPIO.setup(22,GPIO.IN) #GO Button
+GPIO.setup(18,GPIO.OUT, initial=GPIO.HIGH) #GO Button LED
 
 lcd = Adafruit_CharLCDPlate()
 font = ImageFont.truetype("./at.ttf",130) #full frame
 
 os.system("clear")
 
-gbversion = "LPL GeekBooth!\n"
+gbversion = "  geek.booth.\n"
 
 def flashlights():
     col = (lcd.RED , lcd.YELLOW, lcd.GREEN, lcd.TEAL,
@@ -30,22 +30,10 @@ def flashlights():
 
 # Taking the photo.
 def grab_cam():
-    time.sleep(1)
     lcd.clear()
-    lcd.message("COUNTDOWN:\n")
-    lcd.message("          3")
-    time.sleep(1)
-    lcd.clear()
-    lcd.message("COUNTDOWN:\n")
-    lcd.message("          2")
-    time.sleep(1)
-    lcd.clear()
-    lcd.message("COUNTDOWN:\n")
-    lcd.message("          1")
-    time.sleep(1)
-    lcd.clear()
-    lcd.message("     SMILE!")
-    ##print "SMILE!!"
+    lcd.message("    LOOK UP\n")
+    lcd.message("   AND SMILE!")
+    time.sleep(2)
     subprocess.Popen("raspistill -fp -t 2000 -o ./temp.jpg", shell=True)
     time.sleep(4)
     lcd.clear()
@@ -55,13 +43,13 @@ def grab_cam():
 
 
 # Adding the text to the picture.
-def addgeek(): 
+def addgeek():
     webcamphoto = Image.open(open("./temp.jpg",'rb'))
     time.sleep(4)
     lcd.backlight(lcd.GREEN)
     lcd.clear()
-    lcd.message(" Picture Taken\n")
-    lcd.message("Adding Your Geek")
+    lcd.message(" Picture Taken.\n")
+    lcd.message("Adding Your Geek.")
     ##print "Photo is taken... adding text."
     draw = ImageDraw.Draw(webcamphoto)
     draw.rectangle([(0,1620),(2592,1944)],fill = '#000000')  #2592x1944 full frame
@@ -77,8 +65,8 @@ def addgeek():
     lcd.message("    Preview")
     webcamphoto.save(filename)
     ##print "Done!"
-#    os.system("fim -c '45%; sleep \"5\"; q'" + " " + str(filename)) #vga
-    os.system("fim -c '20%; sleep \"5\"; q'" + " " + str(filename)) #composite
+#    os.system("fim -c '45%; sleep \"5\"; q'" + " " + str(filename)) #vga monitor
+    os.system("fim -c '20%; sleep \"5\"; q'" + " " + str(filename)) #composite LCD screen
     lcd.clear()
     lcd.backlight(lcd.VIOLET)
     lcd.message("    All Done\n")
@@ -87,7 +75,7 @@ def addgeek():
 def mainrun():
     # Cycle through backlight colors
     col = (lcd.RED , lcd.YELLOW, lcd.GREEN, lcd.TEAL,
-           lcd.BLUE, lcd.VIOLET, lcd.ON   , lcd.OFF)
+           lcd.BLUE, lcd.VIOLET)
     for c in col:
         lcd.backlight(c)
         time.sleep(.25)
@@ -95,23 +83,30 @@ def mainrun():
     global filename
     filename = "/media/usb0/geek" + str(time.strftime("%Y%m%d-%H%M%S")) + ".jpg"
     lcd.clear()
-    lcd.backlight(lcd.RED)
-    lcd.message("What Do U Geek?")
+    lcd.backlight(lcd.GREEN)
+    lcd.message("Type What U Geek\n")
+    lcd.message(" Then Hit Enter")
     os.system("clear")
     global whatgeek
-    whatgeek = str(raw_input("What do you geek?")) # Get what they geek
-    #whatgeek = str(getpass.getpass(prompt="")) #hides text input to screen
+    whatgeek = str(raw_input("What do you geek?  ")) # Get what they geek
+    #whatgeek = str(getpass.getpass(prompt="")) #hides text input to LCD screen
     lcd.clear()
     lcd.backlight(lcd.YELLOW)
     lcd.message("Nice! You Geek:\n")
     lcd.message("%s" % whatgeek)
     time.sleep(2)
     lcd.clear()
-    lcd.message("Press Enter\n")
-    lcd.message("To Take The Pic")
-    raw_input() # For debug to pause before snapping
-
-    grab_cam()
+    lcd.message("  Press Button\n")
+    lcd.message("  To Take Pic")
+    while True:
+        GPIO.output(18,GPIO.HIGH)
+        time.sleep(.1)
+        GPIO.output(18,GPIO.LOW)
+        if (GPIO.input(22) == False ):
+            GPIO.output(18,GPIO.HIGH)
+            grab_cam()
+            break
+        time.sleep(.1)
     addgeek()
 
 lcd.clear()
@@ -125,15 +120,10 @@ print("Ready To Go")
 # Run the program
 try:
     while True:
-        time.sleep(0.2)
-#        if (GPIO.input(15) == False ):
-#            lcd.clear()
-#            lcd.backlight(lcd.RED)
-#            lcd.message("SHUTTING DOWN")
-#            time.sleep(2)
-#            lcd.backlight(lcd.OFF)
-#            lcd.clear()
-#            os.system("sudo shutdown -h now")
+        GPIO.output(18,GPIO.HIGH)
+        time.sleep(0.25)
+        GPIO.output(18,GPIO.LOW)
+        time.sleep(0.25)
         if (GPIO.input(22) == False ):
             if not os.path.ismount("/media/usb0/"):
                 lcd.clear()
@@ -152,6 +142,4 @@ except:
 # LCD Cleanup when done
     lcd.clear()
     lcd.backlight(lcd.OFF)
-
-# Uncomment when running from the terminal to view final image
-#os.system("fbi --autodown ./final.jpg")
+    GPIO.cleanup()
