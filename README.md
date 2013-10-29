@@ -60,7 +60,7 @@ edited /etc/modules and added the following for the LCD board<br>
 sudo apt-get install python-smbus<br>
 sudo apt-get install i2c-tools<br>
 <br>
-#make sure the 20 is there to identify the board.<br>
+Make sure the 20 is there to identify the board.<br>
 sudo i2cdetect -y 1<br>
 <br>
 made sure git was installed<br>
