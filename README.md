@@ -1,6 +1,7 @@
 geekbooth
 =========
 A python program that uses a Raspberry Pi to create a photobooth to replicate the photos used in the http://geekthelibrary.org/ campaign.<br>
+See the wiki for a photo. It's still a work in progress.<br>
 <br>
 Programmed and built by:<br>
 Adam Melancon - Systems Administrator, Lafayette Public Library<br>
