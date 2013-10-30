@@ -37,7 +37,9 @@ def gowatcher():
                 lcd.message("NO THUMBDRIVE!\n")
                 lcd.message(" Insert & Retry")
             else:
-                mainrun() # BUTTON FIRED, START THE PHOTO SESSION!
+                os.system("sudo killall playvideo.sh")
+                os.system("sudo killall omxplayer.bin")
+                mainrun() # BUTTON FIRED, START THE SESSION!
                 os.system("clear")
                 flashlights()
                 lcd.clear()
@@ -63,8 +65,7 @@ def barker():
             '6': '-....',  '7': '--...',  '8': '---..',
             '9': '----.'
             }
-    msg = "GO"
-
+    msg = "GO" # Your message in Morse Code
     for char in msg:
         gowatcher() # Check for GO press
         time.sleep(.40)
@@ -76,7 +77,7 @@ def barker():
             else:
                 pulse = .05
             GPIO.output(18,GPIO.HIGH)
-            print(dotdash)
+            ##print(dotdash)
             time.sleep(pulse)
             GPIO.output(18,GPIO.LOW)
             time.sleep(.20)
@@ -118,10 +119,12 @@ def addgeek():
     ##print "Done!"
 #    os.system("fim -c '45%; sleep \"5\"; q'" + " " + str(filename)) #if using vga monitor
     os.system("fim -c '20%; sleep \"5\"; q'" + " " + str(filename)) #if using 4.3" composite LCD screen
+    time.sleep(4)
     lcd.clear()
     lcd.backlight(lcd.VIOLET)
     lcd.message("    All Done\n")
     lcd.message("   Thank You!")
+    os.system("./playvideo.sh  >/dev/null 2>&1 &")
 
 # Main function that starts the photobooth session.
 def mainrun():
@@ -163,21 +166,33 @@ def mainrun():
         time.sleep(.1)
     addgeek()  # Jump to addgeek funtion to process text
 
-# Some intial setup before going into the main loop.
-lcd.clear()
-lcd.message(gbversion)
-lcd.message("Hold GO Button!")
-flashlights()
-print(gbversion)
-print("Ready To Go")
 
 
 # Run the main loop of the program.
 try:
+    print("3 seconds to ctrl+C cancel before starting")
+    time.sleep(1)
+    print("3")
+    time.sleep(1)
+    print("2")
+    time.sleep(1)
+    print("1")
+    time.sleep(1)
+    os.system("clear")
+    lcd.clear()
+    lcd.message(gbversion)
+    lcd.message("Hit GO Button!")
+    flashlights()
+    print(gbversion)
+    print("Ready To Go")
+    os.system("./playvideo.sh  >/dev/null 2>&1 &")
+
     while True:
         barker()
 except:
 # LCD and GPIO Cleanup when catching a ctrl+C
+    os.system("sudo killall playvideo.sh")
+    os.system("sudo killall omxplayer.bin")
     lcd.clear()
     lcd.backlight(lcd.OFF)
     GPIO.cleanup()
