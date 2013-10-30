@@ -6,7 +6,6 @@ Programmed and built by:<br>
 Adam Melancon - Systems Administrator, Lafayette Public Library<br>
 Kris Wotipka<br>
 <br>
-It uses the following parts, modules, raspbian packages, and fonts.
 
 # Table of Contents
 *[Usage](#usage)<br>
