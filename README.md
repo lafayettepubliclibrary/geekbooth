@@ -12,14 +12,16 @@ It uses the following parts, modules, raspbian packages, and fonts.
 *[Install Log for Raspbian](#installlog)<br>
 
 # <a name="usage"></a>Usage
-Press the big GO button<br>
+GeekBooth starts up and plays a video while waiting for interaction.<br>
+The GO button flashes is't LED spelling "GO" in morse code<br>
+Begin by pressing the big GO button<br>
 It asks what you geek on the LCD character display.<br>
 Give an answer and hit enter.<br>
 It tells you press the flashing red button to take your pic.<br>
 Camera preview shows up on LCD screen for you to frame up.<br>
 It snaps the photo and adds the text below it.<br>
 It then saves it to the thumbdrive and shows a final image on the LCD screen.<br>
-It now waits for the next person to press the GO button to start again.<br>
+It now starts the video loop and waits for the next person to press the GO button to start again.<br>
 
 # <a name="parts"></a>Parts
 Raspberry Pi<br>
