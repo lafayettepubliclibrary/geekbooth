@@ -5,15 +5,13 @@ A python program that uses a Raspberry Pi to create a photobooth to replicate th
 Programmed and built by:<br>
 Adam Melancon - Systems Administrator, Lafayette Public Library<br>
 Kris Wotipka<br>
-<br>
-
 # Table of Contents
 *[Usage](#usage)<br>
 *[Parts](#parts)<br>
 *[Font File](#fontfile)<br>
 *[Raspbian Package](#raspbianpackage)<br>
 *[Python Modules](#pythonmodules)<br>
-*[Install Log for Raspbian](#installlog)<br>
+*[My Install Log for Raspbian](#installlog)<br>
 
 # <a name="usage"></a>Usage
 GeekBooth starts up and plays a video while waiting for interaction.<br>
