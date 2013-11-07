@@ -125,7 +125,7 @@ def addgeek():
     lcd.message("    All Done\n")
     lcd.message("   Thank You!")
     with open("/media/usb0/consentform.txt", "a") as consfile:
-        consfile.write(str(fullname) + " " + str(filename) + "\n")
+        consfile.write(str(fullname) + " -  " + whatgeek + " -  "+ str(filename) + "\n")
         consfile.close()
     os.system("./playvideo.sh  >/dev/null 2>&1 &")
 
