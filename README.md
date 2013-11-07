@@ -18,12 +18,15 @@ Kris Wotipka<br>
 GeekBooth starts up and plays a video while waiting for interaction.<br>
 The GO button flashes is't LED spelling "GO" in morse code<br>
 Begin by pressing the big GO button<br>
+It first asks if you consent to your photo being used.<br>
+It then asks for your full name.<br>
 It asks what you geek on the LCD character display.<br>
 Give an answer and hit enter.<br>
 It tells you press the flashing red button to take your pic.<br>
 Camera preview shows up on LCD screen for you to frame up.<br>
 It snaps the photo and adds the text below it.<br>
 It then saves it to the thumbdrive and shows a final image on the LCD screen.<br>
+It then takes "Your full name + What you geek + Final filename" and appends it to a new line in a log file.<br>
 It now starts the video loop and waits for the next person to press the GO button to start again.<br>
 
 # <a name="parts"></a>Parts
