@@ -163,7 +163,7 @@ def mainrun():
     lcd.message(" Then Hit Enter")
     os.system("clear")
     global fullname
-    fullname = str(raw_input("Tyep your full name:  ")) # Get guests full name
+    fullname = str(raw_input("Type your full name:  ")) # Get guests full name
     lcd.clear()
     os.system("clear")
     lcd.message("Type What U Geek\n")
