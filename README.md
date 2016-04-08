@@ -1,5 +1,12 @@
 geekbooth
 =========
+
+NOTE: Since the "Geek the Library" campaign has ended, I have change the Geekbooth to be the "Selfie Machine!".  
+The only thing that has changed is a bit of the wording and the text that gets processed on the final photoo.
+Check out the new selfmachine.py python file that has the updates.  Enjoy!
+
+=========
+
 A python program that uses a Raspberry Pi to create a photobooth to replicate the photos used in the http://geekthelibrary.org/ campaign.<br>
 See the wiki for a photo. It's still a work in progress.<br>
 <br>
