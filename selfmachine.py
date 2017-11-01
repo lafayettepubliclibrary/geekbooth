@@ -1,12 +1,12 @@
-import time 
-import subprocess 
-import PIL 
-from PIL import ImageFont 
-from PIL import Image 
-from PIL import ImageDraw 
-import RPi.GPIO as GPIO 
-import os 
-import getpass 
+import time
+import subprocess
+import PIL
+from PIL import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+import RPi.GPIO as GPIO
+import os
+import getpass
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 
 GPIO.setmode(GPIO.BOARD)
@@ -84,11 +84,14 @@ def barker():
 
 # Taking the photo.
 def grab_cam():
+    os.system("clear")
     lcd.clear()
+    print("SMILE FOR THE SCREEN \n AND HOLD STILL!!")
     lcd.message("SMILE AT SCREEN\n")
     lcd.message("AND HOLD STILL!!")
     time.sleep(2)
     subprocess.Popen("raspistill -fp -t 2000 -o ./temp.jpg", shell=True)
+    os.system("clear")
     time.sleep(4)
     lcd.clear()
     lcd.message("   OH SNAP!\n")
@@ -96,9 +99,11 @@ def grab_cam():
     ##print("SNAP!")
 
 # Adding the text to the picture.
-def addgeek(): 
+def addgeek():
     webcamphoto = Image.open(open("./temp.jpg",'rb'))
     time.sleep(4)
+    os.system("clear")
+    print("Picture Taken, Processing Image... \n Please Wait For Photo Preview.")
     lcd.backlight(lcd.GREEN)
     lcd.clear()
     lcd.message(" Picture Taken.\n")
@@ -107,13 +112,14 @@ def addgeek():
     draw = ImageDraw.Draw(webcamphoto)
     draw.rectangle([(0,1620),(2592,1944)],fill = '#000000')  #2592x1944 full frame
     draw.text((20,1640),"The",(255,154,0),font = font)
-    draw.text((290,1640),"Selfie Machine!",(181,253,19),font = font)
+    draw.text((290,1640),"Makerspace Selfie Machine!",(181,253,19),font = font)
     draw.text((20,1770),"@",(255,255,255),font = font)
     draw.text((140,1770),"The Lafayette Public Library",(85,170,221),font = font)
     ###lcd.clear()
     ###lcd.message(" Saving Image")
     ##print "Saving image."
     time.sleep(2)
+    os.system("clear")
     lcd.clear()
     lcd.message(" Check Out Your\n")
     lcd.message("    Preview")
@@ -156,6 +162,7 @@ def mainrun():
         flashlights()
         print(gbversion)
         print("Ready To Go")
+        os.system("clear")
         os.system("./playvideo.sh  >/dev/null 2>&1 &")
         return
     else:
@@ -175,7 +182,7 @@ def mainrun():
     global emailaddr
     emailaddr = str(raw_input("Enter your email:  "))
     lcd.clear()
-    os.system("clear") 
+    os.system("clear")
     ###lcd.message("Type What U Geek\n")
     ###lcd.message(" Then Hit Enter")
     ###os.system("clear")
@@ -189,6 +196,7 @@ def mainrun():
     ###time.sleep(2)
     os.system("clear")
     lcd.clear()
+    print("Press the flashing GO button For Selfie!")
     lcd.message("   Press GO\n")
     lcd.message("  For Selfie!")
     # Flash the button LED fast to draw attention.
@@ -225,7 +233,7 @@ try:
     os.system("./playvideo.sh  >/dev/null 2>&1 &")
 
     while True:
-        barker()        
+        barker()
 except:
 # LCD and GPIO Cleanup when catching a ctrl+C
     os.system("sudo killall playvideo.sh")
@@ -233,4 +241,3 @@ except:
     lcd.clear()
     lcd.backlight(lcd.OFF)
     GPIO.cleanup()
-    
